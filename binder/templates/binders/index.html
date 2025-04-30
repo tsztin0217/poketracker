@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>Your Binders</h2>
+<a href="{% url 'binder-create' %}" class="btn btn-primary">+ Create Binder</a>
+
+<ul class="list-group mt-3">
+  {% for binder in object_list %}
+  <li class="list-group-item">
+    <a href="{% url 'binder_detail' binder.id %}">{{ binder.name }}</a>
+  </li>
+  {% empty %}
+  <p>You don't have any binders yet.</p>
+  {% endfor %}
+</ul>
+{% endblock %}
