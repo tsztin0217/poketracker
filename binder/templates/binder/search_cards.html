@@ -1,3 +1,4 @@
+{% extends "base.html" %} {% block content %}
 <form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
   <input
     type="text"
@@ -11,7 +12,9 @@
 <ul>
   {% for card in cards %}
   <li>
-    <a href=""><img src="{{ card.small_img }}" alt="{{ card.name }}" /></a>
+    <a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}"
+      ><img src="{{ card.small_img }}" alt="{{ card.name }}"
+    /></a>
     <h3>{{ card.name }} {{ card.id }}</h3>
     <a href="{{ card.tcg_url }}">View on TCGPlayer</a>
   </li>
@@ -19,4 +22,4 @@
 </ul>
 {% else %}
 <p>No cards found for "{{ query }}"</p>
-{% endif %} {% endif %}
+{% endif %} {% endif %} {% endblock %}
