@@ -1,0 +1,6 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ binder.name }}</h1>
+
+<a href="{% url 'search-cards' binder.id %}">Add a Card to This Binder</a>
+
+{% endblock %}
