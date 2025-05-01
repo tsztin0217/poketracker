@@ -5,7 +5,10 @@ urlpatterns = [
     path('', views.Home.as_view(), name='home'),
     path('binders/', views.BinderList.as_view(), name='binder-index'),
     path('binders/create/', views.BinderCreate.as_view(), name='binder-create'),
-    path('binders/<int:pk>/', views.BinderDetail.as_view(), name='binder-detail'),
+    path('binders/<int:pk>/', views.binder_detail, name='binder-detail'),
     path('accounts/signup/', views.signup, name='signup'),
-
+    path('binders/<int:binder_id>/search/', views.search_cards, name='search-cards'),
+    path('binders/<int:binder_id>/cards/<str:card_id>/', views.card_detail_view, name='card-detail'),
+    path('binders/<int:binder_id>/add_card/<str:card_id>/', views.add_card_to_binder, name='add_card_to_binder'),
+    path('usercard/<int:pk>/', views.user_card_detail, name='user-card-detail'),
 ]
