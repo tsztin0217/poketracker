@@ -1,0 +1,22 @@
+<form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
+  <input
+    type="text"
+    name="query"
+    placeholder="Search for a card..."
+    value="{{ query }}"
+  />
+  <button type="submit">Search</button>
+</form>
+{% if query %} {% if cards %}
+<ul>
+  {% for card in cards %}
+  <li>
+    <a href=""><img src="{{ card.small_img }}" alt="{{ card.name }}" /></a>
+    <h3>{{ card.name }} {{ card.id }}</h3>
+    <a href="{{ card.tcg_url }}">View on TCGPlayer</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No cards found for "{{ query }}"</p>
+{% endif %} {% endif %}
