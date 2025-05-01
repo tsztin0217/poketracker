@@ -2,5 +2,11 @@
 <h1>{{ binder.name }}</h1>
 
 <a href="{% url 'search-cards' binder.id %}">Add a Card to This Binder</a>
-
+<div>
+  {% for card in cards_with_details %} {{ card.card.name }}
+  <a href="{% url 'user-card-detail' card.user_card.pk %}"
+    ><img src="{{card.card.images.small }}"
+  /></a>
+  {% endfor %}
+</div>
 {% endblock %}
