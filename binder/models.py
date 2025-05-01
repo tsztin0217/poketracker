@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 
@@ -24,6 +25,10 @@ class Binder(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("binder-detail", kwargs={"pk": self.pk})
+    
     
 class UserCardInfo(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
