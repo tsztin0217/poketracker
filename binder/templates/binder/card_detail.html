@@ -1,0 +1,5 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ card.name }}</h1>
+<img src="{{ card.images.large }}" alt="{{ card.name }}" />
+<a href="{% url "add_card_to_binder" binder.id card.id %}">Add {{ card.name }} to binder</a>
+{% endblock %}
