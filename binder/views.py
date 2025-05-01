@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -34,7 +34,7 @@ class Home(LoginView):
 class BinderList(LoginRequiredMixin, ListView):
     model = Binder
     template_name = 'binders/index.html'
-    
+
     def get_queryset(self):
         return Binder.objects.filter(owner=self.request.user)
 
@@ -47,7 +47,15 @@ class BinderCreate(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         self.object = form.save()
         return redirect('binder-detail', pk=self.object.pk)
-    
+
+class BinderUpdate(LoginRequiredMixin, UpdateView):
+    model = Binder
+    fields = ['name', 'description']
+
+class BinderDelete(LoginRequiredMixin, DeleteView):
+    model = Binder
+    success_url = '/binders/'
+
 
 @login_required
 def binder_detail(request, pk):
