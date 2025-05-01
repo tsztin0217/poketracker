@@ -3,12 +3,12 @@ from django.views.generic.edit import CreateView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Binder
+from .models import Binder, UserCardInfo
 from .forms import UserCardInfoForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .services import fetch_card_data
+from .services import fetch_card_data, get_card_details_from_api
 
 def signup(request):
     error_message = ''
@@ -46,15 +46,31 @@ class BinderCreate(LoginRequiredMixin, CreateView):
         return redirect('binder-detail', pk=self.object.pk)
     
 
-class BinderDetail(LoginRequiredMixin, DetailView):
-    model = Binder
+# class BinderDetail(LoginRequiredMixin, DetailView):
+#     model = Binder
 
+def binder_detail(request, pk):
+    binder = get_object_or_404(Binder, pk=pk)
+    cards_in_binder = UserCardInfo.objects.filter(owner=request.user, binder=binder)
 
+    cards_with_details = []
+    for user_card in cards_in_binder:
+        card_data = get_card_details_from_api(user_card.card_id)
+        if card_data:
+            cards_with_details.append({
+                'user_card': user_card,
+                'card': card_data 
+            })
+
+    return render(request, 'binder/binder_detail.html', {
+        'binder': binder,
+        'cards_with_details': cards_with_details,
+    })
 
 def search_cards(request, binder_id):
     print("search_cards function is being called")
     
-    query = request.GET.get('query') 
+    query = request.GET.get('query', '') 
     cards = []  
     
     if query:
@@ -79,10 +95,20 @@ def search_cards(request, binder_id):
         'cards': cards,
         'query': query,
         'binder': binder 
+    }) 
+
+def card_detail_view(request, binder_id, card_id):
+    binder = get_object_or_404(Binder, id=binder_id)
+    card = get_card_details_from_api(card_id)
+    return render(request, 'binder/card_detail.html', {
+        'binder': binder,
+        'card': card
     })
+
 
 def add_card_to_binder(request, binder_id, card_id):
     binder = get_object_or_404(Binder, id=binder_id)
+    card = get_card_details_from_api(card_id)
 
     if request.method == 'POST':
         form = UserCardInfoForm(request.POST)
@@ -98,6 +124,17 @@ def add_card_to_binder(request, binder_id, card_id):
 
     return render(request, 'binder/add_card.html', {
         'form': form,
-        'binder_id': binder_id,
-        'card_id': card_id
+        'binder': binder,
+        'card': card
+    })
+
+
+def user_card_detail(request, pk):
+    user_card = get_object_or_404(UserCardInfo, pk=pk)
+    card = get_card_details_from_api(user_card.card_id)
+    binder = user_card.binder 
+    return render(request, 'binder/user_card_detail.html', {
+        'user_card': user_card,
+        'binder': binder,
+        'card': card
     })
