@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ user_card }}</h1>
+<h1>{{card.name }}</h1>
+<p>{{card}}</p>
+
+<p>
+  <img src="{{ card.images.large }}" alt="{{ card.name }}" />
+</p>
+<p><strong>Date obtained: </strong>{{ user_card.date_obtained}}</p>
+<p>
+  <strong>Method obtained: </strong>{{ user_card.get_method_obtained_display }}
+</p>
+<p><strong>Price paid: </strong>${{ user_card.price_paid }}</p>
+<p><strong>Graded: </strong>{{ user_card.get_graded_display }}</p>
+<p><strong>Grade: </strong>{{ user_card.grade }}</p>
+<p><strong>Comments: </strong>{{ user_card.comments }}</p>
+
+{% endblock %}
