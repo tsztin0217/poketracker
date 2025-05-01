@@ -27,7 +27,6 @@ def signup(request):
     return render(request, 'signup.html', context)
 
 
-
 class Home(LoginView):
     template_name = 'binder/home.html'
 
@@ -35,6 +34,10 @@ class Home(LoginView):
 class BinderList(LoginRequiredMixin, ListView):
     model = Binder
     template_name = 'binders/index.html'
+    
+    def get_queryset(self):
+        return Binder.objects.filter(owner=self.request.user)
+
 
 class BinderCreate(LoginRequiredMixin, CreateView):
     model = Binder
@@ -46,11 +49,9 @@ class BinderCreate(LoginRequiredMixin, CreateView):
         return redirect('binder-detail', pk=self.object.pk)
     
 
-# class BinderDetail(LoginRequiredMixin, DetailView):
-#     model = Binder
-
+@login_required
 def binder_detail(request, pk):
-    binder = get_object_or_404(Binder, pk=pk)
+    binder = get_object_or_404(Binder, pk=pk, owner=request.user)
     cards_in_binder = UserCardInfo.objects.filter(owner=request.user, binder=binder)
 
     cards_with_details = []
@@ -67,6 +68,7 @@ def binder_detail(request, pk):
         'cards_with_details': cards_with_details,
     })
 
+@login_required
 def search_cards(request, binder_id):
     print("search_cards function is being called")
     
@@ -89,7 +91,7 @@ def search_cards(request, binder_id):
                     'tcg_url': card.get('tcgplayer', {}).get('url')
                 })
     
-    binder = get_object_or_404(Binder, id=binder_id)
+    binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
     
     return render(request, 'binder/search_cards.html', {
         'cards': cards,
@@ -97,17 +99,18 @@ def search_cards(request, binder_id):
         'binder': binder 
     }) 
 
+@login_required
 def card_detail_view(request, binder_id, card_id):
-    binder = get_object_or_404(Binder, id=binder_id)
+    binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
     card = get_card_details_from_api(card_id)
     return render(request, 'binder/card_detail.html', {
         'binder': binder,
         'card': card
     })
 
-
+@login_required
 def add_card_to_binder(request, binder_id, card_id):
-    binder = get_object_or_404(Binder, id=binder_id)
+    binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
     card = get_card_details_from_api(card_id)
 
     if request.method == 'POST':
@@ -128,9 +131,9 @@ def add_card_to_binder(request, binder_id, card_id):
         'card': card
     })
 
-
+@login_required
 def user_card_detail(request, pk):
-    user_card = get_object_or_404(UserCardInfo, pk=pk)
+    user_card = get_object_or_404(UserCardInfo, pk=pk, owner=request.user)
     card = get_card_details_from_api(user_card.card_id)
     binder = user_card.binder 
     return render(request, 'binder/user_card_detail.html', {
