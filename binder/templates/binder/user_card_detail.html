@@ -2,10 +2,12 @@
 <h1>{{ user_card }}</h1>
 <h1>{{card.name }}</h1>
 <p>{{card}}</p>
-
+<a href="{% url 'binder-detail' binder.id %}">Return to Binder</a>
 <p>
   <img src="{{ card.images.large }}" alt="{{ card.name }}" />
 </p>
+<a href="{% url 'user-card-update' user_card.pk %}">Edit Card</a>
+<a href="{% url 'user-card-delete' user_card.pk %}">Delete Card</a>
 <p><strong>Date obtained: </strong>{{ user_card.date_obtained}}</p>
 <p>
   <strong>Method obtained: </strong>{{ user_card.get_method_obtained_display }}
