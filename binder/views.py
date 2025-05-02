@@ -9,6 +9,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .services import fetch_card_data, get_card_details_from_api
+from django.urls import reverse
 
 def signup(request):
     error_message = ''
@@ -149,3 +150,13 @@ def user_card_detail(request, pk):
         'binder': binder,
         'card': card
     })
+
+class UserCardUpdate(LoginRequiredMixin, UpdateView):
+    model = UserCardInfo
+    fields = ['method_obtained', 'graded', 'grade', 'price_paid', 'comments']
+
+class UserCardDelete(LoginRequiredMixin, DeleteView):
+    model = UserCardInfo
+
+    def get_success_url(self):
+        return reverse('binder-detail', kwargs={'pk': self.object.binder.pk})
