@@ -13,4 +13,6 @@ urlpatterns = [
     path('binders/<int:binder_id>/cards/<str:card_id>/', views.card_detail_view, name='card-detail'),
     path('binders/<int:binder_id>/add_card/<str:card_id>/', views.add_card_to_binder, name='add_card_to_binder'),
     path('usercard/<int:pk>/', views.user_card_detail, name='user-card-detail'),
+    path('usercard/<int:pk>/update', views.UserCardUpdate.as_view(), name='user-card-update'),
+    path('usercard/<int:pk>/delete', views.UserCardDelete.as_view(), name='user-card-delete')
 ]
