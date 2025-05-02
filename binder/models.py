@@ -49,3 +49,7 @@ class UserCardInfo(models.Model):
 
     def __str__(self):
         return f"{self.card_id} in {self.binder.name}"
+    
+    def get_absolute_url(self):
+        return reverse("user-card-detail", kwargs={"pk": self.pk})
+    
