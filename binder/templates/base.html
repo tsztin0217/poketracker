@@ -5,17 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="" />
     <title>PokeTracker</title>
-    {% block head %}
-    {% endblock %}
+    {% block head %} {% endblock %}
   </head>
   <body>
     <header>
-        <a href="/">
-            <img src="" alt="The PokeTracker Logo" />
+      <a href="/">
+        <img src="" alt="The PokeTracker Logo" />
+      </a>
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'binder-index' %}">My Binders</a></li>
+          <li>
+            <form id="logout-form" method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit">Log out</button>
+            </form>
+          </li>
+          {% else %}
+          <li><a href="{% url 'home' %}"></a></li>
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+    <main>{% block content %} {% endblock %}</main>
   </body>
 </html>
