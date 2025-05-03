@@ -1,7 +1,10 @@
 {% extends "base.html" %} {% block content %}
-<h1>Edit Card Info</h1>
+<h1>Edit {{ object.name }} {{ object }}</h1>
+<img src="{{ object.img_url_large }}" alt="{{ object.name }}" />
+Date obtained: {{ object.date_obtained}} {{ user_card.price_paid }}
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
   <button type="submit">Save</button>
 </form>
+<a href="{% url 'user-card-detail' object.pk %}">Cancel</a>
 {% endblock %}
