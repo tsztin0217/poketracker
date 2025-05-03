@@ -34,6 +34,9 @@ class UserCardInfo(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     binder = models.ForeignKey('Binder', on_delete=models.CASCADE, related_name='cards')
     card_id = models.CharField(max_length=100) 
+    name = models.CharField(max_length=100, blank=True, null=True)
+    img_url_large = models.URLField(blank=True, null=True)
+    img_url_small = models.URLField(blank=True, null=True)
 
     date_obtained = models.DateField(blank=True, null=True)
     method_obtained = models.CharField(max_length=1, choices=METHODS, blank=True, null=True)
@@ -48,7 +51,7 @@ class UserCardInfo(models.Model):
     comments = models.TextField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.card_id} in {self.binder.name}"
+        return f"Card ID {self.card_id} from {self.binder.name} "
     
     def get_absolute_url(self):
         return reverse("user-card-detail", kwargs={"pk": self.pk})
