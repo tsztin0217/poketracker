@@ -128,7 +128,10 @@ def add_card_to_binder(request, binder_id, card_id):
             user_card = form.save(commit=False)
             user_card.owner = request.user
             user_card.binder = binder
-            user_card.card_id = card_id  
+            user_card.card_id = card_id
+            user_card.name = card.get('name')
+            user_card.img_url_large = card.get('images', {}).get('large') 
+            user_card.img_url_small = card.get('images', {}).get('small')
             user_card.save()
             return redirect('binder-detail', pk=binder_id)
     else:
@@ -157,6 +160,15 @@ class UserCardUpdate(LoginRequiredMixin, UpdateView):
 
 class UserCardDelete(LoginRequiredMixin, DeleteView):
     model = UserCardInfo
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        card_info = get_card_details_from_api(self.object.card_id)
+        user_card = self.object
+
+        context['card'] = card_info  
+        context['user_card'] = user_card
+        return context
 
     def get_success_url(self):
         return reverse('binder-detail', kwargs={'pk': self.object.binder.pk})
