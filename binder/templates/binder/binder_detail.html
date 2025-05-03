@@ -5,10 +5,16 @@
 <a href="{% url 'binder-update' binder.id %}">Edit Binder</a>
 <a href="{% url 'binder-delete' binder.id %}">Delete Binder</a>
 <div>
-  {% for card in cards_with_details %} {{ card.card.name }}
+  {% for card in cards_with_details %} {{ card.user_card.name }} {% comment %}
   <a href="{% url 'user-card-detail' card.user_card.pk %}"
     ><img src="{{card.card.images.small }}"
   /></a>
-  {% endfor %}
+  {% endcomment %}
+  <a href="{% url 'user-card-detail' card.user_card.pk %}"
+    ><img
+      src="{{ card.user_card.img_url_small }}"
+      alt="{{ card.user_card.name }}"
+  /></a>
+  {{card}} {% endfor %}
 </div>
 {% endblock %}
