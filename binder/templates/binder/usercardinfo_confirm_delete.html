@@ -1,10 +1,23 @@
 {% extends 'base.html' %} {% block content %}
 <h2>Confirm Delete</h2>
-<p>Are you sure you want to delete the card "{{ object }}"?</p>
+<p>
+  Are you sure you want to delete the card
+  <strong>{{ card.name }}</strong> {{object}}"?
+</p>
+<img src="{{ card.images.large }}" alt="{{ card.name }}" />
 
 <form method="post">
   {% csrf_token %}
   <button type="submit">Yes, delete</button>
   <a href="{% url 'user-card-detail' object.pk %}">Cancel</a>
 </form>
+
+<p><strong>Date obtained: </strong>{{ user_card.date_obtained}}</p>
+<p>
+  <strong>Method obtained: </strong>{{ user_card.get_method_obtained_display }}
+</p>
+<p><strong>Price paid: </strong>${{ user_card.price_paid }}</p>
+<p><strong>Graded: </strong>{{ user_card.get_graded_display }}</p>
+<p><strong>Grade: </strong>{{ user_card.grade }}</p>
+<p><strong>Comments: </strong>{{ user_card.comments }}</p>
 {% endblock %}
