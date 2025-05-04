@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tailwind',
     'binder',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,9 +121,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 STATIC_URL = 'static/'
 
-LOGIN_REDIRECT_URL = 'cat-index'
+LOGIN_REDIRECT_URL = 'binder-index'
 
 LOGOUT_REDIRECT_URL = 'home'
 
