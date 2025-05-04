@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .services import fetch_card_data, get_card_details_from_api
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 def signup(request):
     error_message = ''
@@ -82,6 +83,7 @@ def search_cards(request, binder_id):
     print("search_cards function is being called")
     
     query = request.GET.get('query', '') 
+    page_number = request.GET.get('page')
     cards = []  
     
     if query:
@@ -97,15 +99,20 @@ def search_cards(request, binder_id):
                     'large_img': card.get('images', {}).get('large'),
                     'set_name': card.get('set', {}).get('name'),
                     'set_series': card.get('set', {}).get('series'),
-                    'tcg_url': card.get('tcgplayer', {}).get('url')
+                    'tcg_url': card.get('tcgplayer', {}).get('url'),
+                    'release_date': card.get('set', {}).get('releaseDate')
                 })
     
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
+
+    paginator = Paginator(cards, 12)
+    page_obj = paginator.get_page(page_number)
     
     return render(request, 'binder/search_cards.html', {
-        'cards': cards,
+        'cards': page_obj.object_list,
         'query': query,
-        'binder': binder 
+        'binder': binder,
+        'page_obj': page_obj
     }) 
 
 @login_required
