@@ -20,4 +20,13 @@ class UserCardInfoForm(forms.ModelForm):
                     'type': 'date'
                 }
             ),
+            'price_paid': forms.NumberInput(attrs={
+                'min': 0.0
+            }
+            ),
+            'grade': forms.NumberInput(attrs={
+                'step': 0.5,
+                'min': 0.0,
+                'max': 10.0
+            }),
         }
