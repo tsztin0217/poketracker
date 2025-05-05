@@ -1,25 +1,58 @@
-{% extends "base.html" %} {% block content %}
-<form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
-  <input
-    type="text"
-    name="query"
-    placeholder="Search for a card..."
-    value="{{ query }}"
-  />
-  <button type="submit">Search</button>
-</form>
-{% if query %} {% if cards %}
-<ul>
-  {% for card in cards %}
-  <li>
-    <a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}"
-      ><img src="{{ card.small_img }}" alt="{{ card.name }}"
-    /></a>
-    <h3>{{ card.name }} {{ card.id }}</h3>
-    <a href="{{ card.tcg_url }}">View on TCGPlayer</a>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No cards found for "{{ query }}"</p>
-{% endif %} {% endif %} {% endblock %}
+{% extends "base.html" %}
+{% block content %}
+	<div class="flex justify-center items-center my-6">
+		<form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
+			<input
+				type="text"
+				name="query"
+				placeholder="Enter a pokemon name"
+				value="{{ query }}"
+				class="border border-gray-300 rounded px-4 py-2 text-gray-700"
+			/>
+			<button type="submit" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Search</button>
+		</form>
+	</div>
+	<div class="flex flex-wrap justify-center items-center w-full mx-auto">
+		{% if query %}
+			{% if cards %}
+				{% for card in cards %}
+					<span class="flex justify-start w-auto py-2 px-2 m-2">
+
+						<a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}">
+							<img 
+								src="{{ card.small_img }}" 
+								alt="{{ card.name }}" 
+								class="rounded transform transition duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110" 
+							/>
+						</a>
+					</span>
+				{% endfor %}
+	</div>
+			<div class="pagination">
+				{% if page_obj.has_previous %}
+					<a href="?query={{ query }}&page=1">First</a>
+					<a href="?query={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+				{% endif %}
+
+				<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+				{% for num in page_obj.paginator.page_range %}
+					{% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+						<a href="?query={{ query }}&page={{ num }}"
+						class="px-3 py-1 border rounded-md bg-white text-gray-700 hover:bg-gray-100">
+						{{ num }}
+						</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if page_obj.has_next %}
+					<a href="?query={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+					<a href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}">Last</a>
+				{% endif %}
+			</div>
+		{% else %}
+			<p>No cards found for "{{ query }}"</p>
+	{% endif %}
+
+{% endif %}
+{% endblock %}
