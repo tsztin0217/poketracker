@@ -1,5 +1,15 @@
 {% extends "base.html" %} {% block content %}
+<div class="mb-4 flex">
+    <img src="{{ card.set.images.logo }}" alt="{{ card.name }} logo" class="w-1/3 max-h-24 object-contain" />
+</div>
+
+
 <h1>{{ card.name }}</h1>
-<img src="{{ card.images.large }}" alt="{{ card.name }}" />
-<a href="{% url "add_card_to_binder" binder.id card.id %}">Add {{ card.name }} to binder</a>
+<img src="{{ card.images.large }}" alt="{{ card.name }}" class="w-1/2 rounded"/>
+<p><strong>Set:</strong> {{ card.set.name }}</p>
+<p><strong>Series:</strong> {{ card.set.series }}</p>
+<p><strong>Release Date:</strong> {{ card.set.releaseDate }}</p>
+<p><strong>Updated At:</strong> {{ card.set.updatedAt }}</p>
+<strong><a href="{{ card.tcgplayer.url }}">View on TCG Player</a></strong>
+<p><a href="{% url "add_card_to_binder" binder.id card.id %}">Add {{ card.name }} to binder</a><p>
 {% endblock %}
