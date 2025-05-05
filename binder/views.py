@@ -100,7 +100,8 @@ def search_cards(request, binder_id):
                     'set_name': card.get('set', {}).get('name'),
                     'set_series': card.get('set', {}).get('series'),
                     'tcg_url': card.get('tcgplayer', {}).get('url'),
-                    'release_date': card.get('set', {}).get('releaseDate')
+                    'release_date': card.get('set', {}).get('releaseDate'),
+                    'updated_at': card.get('set', {}).get('updatedAt')
                 })
     
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
@@ -163,7 +164,9 @@ def user_card_detail(request, pk):
 
 class UserCardUpdate(LoginRequiredMixin, UpdateView):
     model = UserCardInfo
-    fields = ['method_obtained', 'graded', 'grade', 'price_paid', 'comments']
+    # fields = ['date_obtained','method_obtained', 'graded', 'grade', 'price_paid', 'comments']
+    form_class = UserCardInfoForm
+
 
 class UserCardDelete(LoginRequiredMixin, DeleteView):
     model = UserCardInfo
