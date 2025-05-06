@@ -1,66 +1,49 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
-	<div class="flex justify-center items-center my-6">
-		<form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
-			<input
-				type="text"
-				name="query"
-				placeholder="Enter a pokemon name"
-				value="{{ query }}"
-				class="border border-gray-300 rounded px-4 py-2 text-gray-700"
-			/>
-			<button type="submit" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Search</button>
-		</form>
-	</div>
-	<div class="flex flex-row flex-wrap justify-center items-center border border-white p-4 w-auto mx-auto">
-	<div class="flex flex-wrap justify-start gap-4 p-4  mx-auto">
+  <div class="flex justify-center items-center my-6">
+    <form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
+      <input type="text" name="query" placeholder="Enter a pokemon name" value="{{ query }}" class="border border-gray-300 rounded px-4 py-2 text-gray-700" />
+      <button type="submit" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Search</button>
+    </form>
+  </div>
 
+  {% if query %}
+    {% if cards %}
+      <div class="flex flex-wrap justify-start gap-5 max-w-screen-xl mx-auto px-4">
+        {% for card in cards %}
+          <span class="max-w-[160px]">
+            <a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}">
+              <img 
+                src="{{ card.small_img }}" 
+                alt="{{ card.name }}" 
+                class="rounded transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110" 
+              />
+            </a>
+          </span>
+        {% endfor %}
+      </div>
 
-		{% if query %}
-			{% if cards %}
-				{% for card in cards %}
-					<span class="max-w-[160px]">
+      <div class="pagination flex justify-center mt-6">
+        {% if page_obj.has_previous %}
+          <a href="?query={{ query }}&page=1">First</a>
+          <a href="?query={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
 
-						<a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}">
-							<img 
-								src="{{ card.small_img }}" 
-								alt="{{ card.name }}" 
-								class="rounded transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110" 
-							/>
-						</a>
-					</span>
-				{% endfor %}
-	</div>
-</div>
+        <span class="mx-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
-			<div class="pagination flex justify-center">
-				{% if page_obj.has_previous %}
-					<a href="?query={{ query }}&page=1">First</a>
-					<a href="?query={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
-				{% endif %}
+        {% for num in page_obj.paginator.page_range %}
+          {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+            <a href="?query={{ query }}&page={{ num }}" class="px-3 py-1 border rounded-md bg-white text-gray-700 hover:bg-gray-100">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
 
-				<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-
-				{% for num in page_obj.paginator.page_range %}
-					{% if num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
-						<a href="?query={{ query }}&page={{ num }}"
-						class="px-3 py-1 border rounded-md bg-white text-gray-700 hover:bg-gray-100">
-						{{ num }}
-						</a>
-					{% endif %}
-				{% endfor %}
-
-				{% if page_obj.has_next %}
-					<a href="?query={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
-					<a href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}">Last</a>
-				{% endif %}
-			</div>
-		
-		{% else %}
-			<p>No cards found for "{{ query }}"</p>
-
-	{% endif %}
-
-{% endif %}
-
+        {% if page_obj.has_next %}
+          <a href="?query={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+          <a href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+      </div>
+    {% else %}
+      <p class="text-center">No cards found for "{{ query }}"</p>
+    {% endif %}
+  {% endif %}
 {% endblock %}
