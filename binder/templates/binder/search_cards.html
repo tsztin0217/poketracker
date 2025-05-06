@@ -11,7 +11,7 @@
     {% if cards %}
       <div class="flex flex-wrap justify-start gap-5 max-w-screen-xl mx-auto px-4">
         {% for card in cards %}
-          <span class="max-w-[160px]">
+          <span class="max-w-[220px]">
             <a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}">
               <img 
                 src="{{ card.small_img }}" 

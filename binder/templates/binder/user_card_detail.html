@@ -4,7 +4,7 @@
 <p>{{card}}</p>
 <a href="{% url 'binder-detail' binder.id %}">Return to Binder</a>
 <p>
-  <img src="{{ card.images.large }}" alt="{{ card.name }}" />
+  <img src="{{ card.images.large }}" alt="{{ card.name }}" class="object-cover h-150" />
 </p>
 <a href="{% url 'user-card-update' user_card.pk %}">Edit Card</a>
 <a href="{% url 'user-card-delete' user_card.pk %}">Delete Card</a>

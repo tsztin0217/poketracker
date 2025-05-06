@@ -4,17 +4,22 @@
 <a href="{% url 'search-cards' binder.id %}">Add a Card to This Binder</a>
 <a href="{% url 'binder-update' binder.id %}">Edit Binder</a>
 <a href="{% url 'binder-delete' binder.id %}">Delete Binder</a>
-<div>
-  {% for card in cards_with_details %} {{ card.user_card.name }} {% comment %}
-  <a href="{% url 'user-card-detail' card.user_card.pk %}"
-    ><img src="{{card.card.images.small }}"
-  /></a>
-  {% endcomment %}
-  <a href="{% url 'user-card-detail' card.user_card.pk %}"
-    ><img
-      src="{{ card.user_card.img_url_small }}"
-      alt="{{ card.user_card.name }}"
-  /></a>
-  {{card}} {% endfor %}
+<p><strong>Date Created: </strong>{{ binder.created_at }}</p>
+<p><strong>Last Modified: </strong>{{ binder.last_modified }}</p>
+<div class="flex justify-center">
+  <div class="flex flex-wrap justify-start gap-4 p-4 mx-auto">
+    {% for card in cards_with_details %}  {% comment %}
+    <a href="{% url 'user-card-detail' card.user_card.pk %}"
+      ><img src="{{card.card.images.small }}"
+    /></a>
+    {% endcomment %}
+    <a href="{% url 'user-card-detail' card.user_card.pk %}"
+      ><img
+        src="{{ card.user_card.img_url_small }}"
+        alt="{{ card.user_card.name }}"
+        class="rounded transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110"
+    /></a>
+ {% endfor %}
+  </div>
 </div>
 {% endblock %}

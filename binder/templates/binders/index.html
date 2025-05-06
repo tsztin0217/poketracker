@@ -1,15 +1,25 @@
-{% extends "base.html" %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <h2 class="text-2xl font-bold mb-4">Your Binders</h2>
+  <a href="{% url 'binder-create' %}" class="btn btn-primary mb-6">+ Create Binder</a>
 
-<h2>Your Binders</h2>
-<a href="{% url 'binder-create' %}" class="btn btn-primary">+ Create Binder</a>
-
-<ul class="list-group mt-3">
-  {% for binder in object_list %}
-  <li class="list-group-item">
-    <a href="{% url 'binder-detail' binder.id %}">{{ binder.name }}</a>
-  </li>
-  {% empty %}
-  <p>You don't have any binders yet.</p>
-  {% endfor %}
-</ul>
+  {% if object_list %}
+    <div class="flex flex-wrap gap-5 justify-center px-6">
+      <div class="flex flex-start flex-wrap gap-4">
+        {% for binder in object_list %}
+        <a href="{% url 'binder-detail' binder.id %}" class="card shadow-lg hover:shadow-blue-500/50 hover:shadow-xl hover:brightness-110 transition duration-300 image-full w-64">
+            <figure>
+              <img src="{% static 'images/craiyon_pokestars.png' %}" alt="Background" class="object-cover w-full h-40" />
+            </figure>
+            <div class="card-body justify-center items-center">
+              <h3 class="card-title">{{ binder.name }}</h3>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p class="mt-4 text-gray-500">You don't have any binders yet.</p>
+  {% endif %}
 {% endblock %}

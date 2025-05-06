@@ -737,7 +737,7 @@ video {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  filter: brightness(28%);
+  filter: brightness(59%);
 }
 .card figure {
   display: flex;
