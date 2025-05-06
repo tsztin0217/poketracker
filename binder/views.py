@@ -106,7 +106,7 @@ def search_cards(request, binder_id):
     
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
 
-    paginator = Paginator(cards, 12)
+    paginator = Paginator(cards, 15)
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'binder/search_cards.html', {
