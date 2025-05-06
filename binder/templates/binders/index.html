@@ -6,7 +6,7 @@
 <ul class="list-group mt-3">
   {% for binder in object_list %}
   <li class="list-group-item">
-    <a href="{% url 'binder_detail' binder.id %}">{{ binder.name }}</a>
+    <a href="{% url 'binder-detail' binder.id %}">{{ binder.name }}</a>
   </li>
   {% empty %}
   <p>You don't have any binders yet.</p>
