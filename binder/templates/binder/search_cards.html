@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
+
+
   <div class="flex justify-center items-center my-6">
-    <form method="GET" action="{% url 'search-cards' binder_id=binder.id %}">
-      <input type="text" name="query" placeholder="Enter a pokemon name" value="{{ query }}" class="border border-gray-300 rounded px-4 py-2 text-gray-700" />
-      <button type="submit" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Search</button>
-    </form>
+	<form method="GET" action="{% url 'search-cards' binder_id=binder.id %}" class="flex items-center gap-2">
+	  <label class="input flex items-center gap-2 border border-gray-300 rounded px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+		<svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+		  <circle cx="11" cy="11" r="8"></circle>
+		  <path d="m21 21-4.3-4.3"></path>
+		</svg>
+		<input
+		  type="search"
+		  name="query"
+		  required
+		  placeholder="Search"
+		  value="{{ query }}"
+		  class="outline-none bg-transparent w-48 text-gray-700 placeholder-gray-400"
+		/>
+	  </label>
+	  <button type="submit" class="btn btn-soft btn-info">Search</button>
+	</form>
   </div>
+  
 
   {% if query %}
     {% if cards %}
@@ -23,25 +39,40 @@
         {% endfor %}
       </div>
 
-      <div class="pagination flex justify-center mt-6">
-        {% if page_obj.has_previous %}
-          <a href="?query={{ query }}&page=1">First</a>
-          <a href="?query={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        <span class="mx-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-
-        {% for num in page_obj.paginator.page_range %}
-          {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
-            <a href="?query={{ query }}&page={{ num }}" class="px-3 py-1 border rounded-md bg-white text-gray-700 hover:bg-gray-100">{{ num }}</a>
-          {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-          <a href="?query={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
-          <a href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-      </div>
+	  <div class="pagination flex flex-wrap justify-center items-center gap-2 mt-6 text-sm">
+		{% if page_obj.has_previous %}
+		  <a href="?query={{ query }}&page=1"
+			 class="join-item btn btn-outline">First</a>
+		  <a href="?query={{ query }}&page={{ page_obj.previous_page_number }}"
+			 class="join-item btn btn-outline">Previous</a>
+		{% endif %}
+	  
+		<span class="mx-2 text-gray-500">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+	  
+		<div class="join space-x-2">
+		  {% for num in page_obj.paginator.page_range %}
+			{% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+			<input
+			type="radio"
+			name="options"
+			aria-label="{{ num }}"
+			value="{{ num }}"
+			onclick="window.location='?query={{ query }}&page={{ num }}'"
+			class="join-item btn btn-square transition {% if num == page_obj.number %}bg-blue-500 text-white{% else %}bg-white text-gray-700 hover:bg-gray-100{% endif %}"
+			{% if num == page_obj.number %}checked{% endif %} />
+			{% endif %}
+		  {% endfor %}
+		</div>
+	  
+		{% if page_obj.has_next %}
+		  <a href="?query={{ query }}&page={{ page_obj.next_page_number }}"
+			 class="join-item btn btn-outline">Next</a>
+		  <a href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}"
+			 class="join-item btn btn-outline">Last</a>
+		{% endif %}
+	  </div>
+	  
+	  
     {% else %}
       <p class="text-center">No cards found for "{{ query }}"</p>
     {% endif %}
