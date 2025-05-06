@@ -12,23 +12,28 @@
 			<button type="submit" class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Search</button>
 		</form>
 	</div>
-	<div class="flex flex-wrap justify-center items-center w-full mx-auto">
+	<div class="flex flex-row flex-wrap justify-center items-center border border-white p-4 w-auto mx-auto">
+	<div class="flex flex-wrap justify-start gap-4 p-4  mx-auto">
+
+
 		{% if query %}
 			{% if cards %}
 				{% for card in cards %}
-					<span class="flex justify-start w-auto py-2 px-2 m-2">
+					<span class="max-w-[160px]">
 
 						<a href="{% url 'card-detail' binder_id=binder.id card_id=card.id %}">
 							<img 
 								src="{{ card.small_img }}" 
 								alt="{{ card.name }}" 
-								class="rounded transform transition duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110" 
+								class="rounded transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110" 
 							/>
 						</a>
 					</span>
 				{% endfor %}
 	</div>
-			<div class="pagination">
+</div>
+
+			<div class="pagination flex justify-center">
 				{% if page_obj.has_previous %}
 					<a href="?query={{ query }}&page=1">First</a>
 					<a href="?query={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
@@ -50,9 +55,12 @@
 					<a href="?query={{ query }}&page={{ page_obj.paginator.num_pages }}">Last</a>
 				{% endif %}
 			</div>
+		
 		{% else %}
 			<p>No cards found for "{{ query }}"</p>
+
 	{% endif %}
 
 {% endif %}
+
 {% endblock %}
