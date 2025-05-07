@@ -1,23 +1,42 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Confirm Delete</h2>
-<p>
-  Are you sure you want to delete the card
-  <strong>{{ card.name }}</strong> {{object}}"?
-</p>
-<img src="{{ card.images.large }}" alt="{{ card.name }}" />
+{% extends 'base.html' %} 
 
-<form method="post">
-  {% csrf_token %}
-  <button type="submit">Yes, delete</button>
-  <a href="{% url 'user-card-detail' object.pk %}">Cancel</a>
-</form>
+{% block content %}
+<div class="text-center mb-6">
+  <p class="text-2xl font-bold">
+    Confirm Delete
+  </p>
+  <p>
+    Are you sure you want to delete <strong>{{ card.name }}</strong> from your <strong>{{ object.binder }}</strong> binder?
+  </p>
+</div>
 
-<p><strong>Date obtained: </strong>{{ user_card.date_obtained}}</p>
-<p>
-  <strong>Method obtained: </strong>{{ user_card.get_method_obtained_display }}
-</p>
-<p><strong>Price paid: </strong>${{ user_card.price_paid }}</p>
-<p><strong>Graded: </strong>{{ user_card.get_graded_display }}</p>
-<p><strong>Grade: </strong>{{ user_card.grade }}</p>
-<p><strong>Comments: </strong>{{ user_card.comments }}</p>
+<div class="flex items-center justify-center">
+  <div class="flex flex-col md:flex-row items-center justify-center gap-10 px-4 mx-auto w-full max-w-6xl">
+    
+      <img src="{{ card.images.large }}" alt="{{ card.name }}" class="rounded max-h-120 max-w-full h-auto" />
+    <div>
+      <div class="w-full md:w-2/3">
+        <div class="space-y-4">
+          <p><strong>Date obtained: </strong>{{ user_card.date_obtained }}</p>
+          <p><strong>Method obtained: </strong>{{ user_card.get_method_obtained_display }}</p>
+          <p><strong>Price paid: </strong>${{ user_card.price_paid }}</p>
+          <p><strong>Graded: </strong>{{ user_card.get_graded_display }}</p>
+          <p><strong>Grade: </strong>{{ user_card.grade }}</p>
+          <p><strong>Comments: </strong>{{ user_card.comments }}</p>
+        </div>
+      <form method="post" class="flex justify-between">
+        
+        {% csrf_token %}
+        
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'user-card-detail' object.pk %}" class="btn btn-secondary">Cancel</a>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+    
+
+</div>
 {% endblock %}
