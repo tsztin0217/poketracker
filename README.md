@@ -50,13 +50,17 @@ Currently, the app offers basic CRUD functionality:
 
 ## ⚙️ Technologies Used
 
-- **Python 3.11**
-- **Django**
-- **PostgreSQL**
-- **Tailwind CSS** (via CDN) (Temporary)
+**Frontend:**
 - **HTML**
-- **Pokémon TCG API** – for card data and images
-- **daisyUI** – custom CSS styling
+- **Tailwind CSS** (via CDN – temporary)
+- **daisyUI** – for additional custom styling
+- **Pokémon TCG API** – for displaying card data and images on the frontend
+
+**Backend:**
+- **Python 3.11**
+- **Django** – web framework
+- **PostgreSQL** – relational database
+
 
 ---
 
@@ -64,7 +68,7 @@ Currently, the app offers basic CRUD functionality:
 
 - Pokémon data and images fetched from [Pokémon TCG API](https://pokemontcg.io/)
 - Fonts: [Darumadrop One](https://fonts.google.com/specimen/Darumadrop+One)
-- Icons: [Heroicons](https://heroicons.com/)
+- Icons: [Heroicons](https://heroicons.com/) (No icons for now, will be added later)
 - Images: [Craiyon](https://www.craiyon.com/)
 - Logo: [FontMeme](https://fontmeme.com/pokemon-font/)
 - [Django Forms](https://docs.djangoproject.com/en/5.2/topics/forms/)
