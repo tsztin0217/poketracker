@@ -1,10 +1,29 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Confirm Delete</h2>
-<p>Are you sure you want to delete the binder "{{ object.name }}"?</p>
+{% extends 'base.html' %}
 
-<form method="post">
+{% block content %}
+<div class="text-center mb-6">
+  <p class="text-2xl font-bold">
+    Confirm Delete
+  </p>
+  <p>
+    Are you sure you want to delete the binder <strong>"{{ object.name }}"</strong> with a total of {{cards.count}} cards"?
+  </p>
+  {{object.count}}
+</div>
+
+<div class="flex flex-wrap justify-center items-center">
+  {% for card in cards %}
+    <div class="border p-2 rounded text-center">
+      <img src="{{ card.img_url_small }}" alt="{{ card.name }}" class="w-full max-h-40 object-contain mx-auto" />
+      <p class="mt-2">{{ card.name }}</p>
+    </div>
+  {% empty %}
+    <p class="col-span-full text-center text-gray-500">No cards in this binder.</p>
+  {% endfor %}
+</div>
+<form method="post" class="flex justify-center items-center m-10">
   {% csrf_token %}
-  <button type="submit">Yes, delete</button>
-  <a href="{% url 'binder-detail' object.pk %}">Cancel</a>
+  <button type="submit" class="btn btn-danger">Yes, delete</button>
+  <a href="{% url 'binder-detail' object.pk %}" class="btn btn-secondary">Cancel</a>
 </form>
 {% endblock %}
