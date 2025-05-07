@@ -53,7 +53,7 @@ Currently, the app offers basic CRUD functionality:
 - **Python 3.11**
 - **Django**
 - **PostgreSQL**
-- **Tailwind CSS** (via CDN)
+- **Tailwind CSS** (via CDN) (Temporary)
 - **HTML**
 - **Pokémon TCG API** – for card data and images
 - **daisyUI** – custom CSS styling
@@ -73,7 +73,7 @@ Currently, the app offers basic CRUD functionality:
 ---
 
 ## 🌱 Next Steps
-- **Fix Tailwind CSS installation instead of relying on CDN**
+- **Use a different UI framework that uses Python / Run Tailwind locally and export to CSS file instead of relying on CDN**
 
 - **Add a page where users can choose to make their binders public** to showcase their progress so other users can view, be inspired, comment, etc.
 
