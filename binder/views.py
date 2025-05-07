@@ -170,7 +170,7 @@ def user_card_detail(request, pk):
 class UserCardUpdate(LoginRequiredMixin, UpdateView):
     model = UserCardInfo
     form_class = UserCardInfoForm
-
+    template_name = 'binder/usercardinfo_form.html'
 
 class UserCardDelete(LoginRequiredMixin, DeleteView):
     model = UserCardInfo
