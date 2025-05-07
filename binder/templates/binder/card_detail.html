@@ -20,7 +20,7 @@
       <p><strong>Release Date:</strong> {{ card.set.releaseDate }}</p>
       <p><strong>Updated At:</strong> {{ card.set.updatedAt }}</p>
       <p>
-        <strong><a class="link link-primary" href="{{ card.tcgplayer.url }}">View on TCG Player</a></strong>
+        <a class="btn btn-soft btn-info" href="{{ card.tcgplayer.url }}">View on TCG Player</a>
       </p>
       <p>
         <a class="btn btn-primary" href="{% url 'add_card_to_binder' binder.id card.id %}">
