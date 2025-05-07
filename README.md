@@ -73,6 +73,10 @@ Currently, the app offers basic CRUD functionality:
 ---
 
 ## 🌱 Next Steps
+- **Fix Tailwind CSS installation instead of relying on CDN**
+
+- **Add a page where users can choose to make their binders public** to showcase their progress so other users can view, be inspired, comment, etc.
+
 - **Add sorting + filtering options**: Card number, series, most recently updated, set, etc.
 
 - **Add grading company field:** I plan to include an option for users to specify the grading company (like PSA, SGC, etc.) when adding cards.
