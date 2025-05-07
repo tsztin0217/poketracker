@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="" />
-    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,5 +43,12 @@
       {% block content %}
       {% endblock %}
     </main>
+    <footer class="footer text-xs sm:footer-horizontal footer-center text-gray-400 bg-base-300 text-base-content p-4">
+      <aside>
+        <p>PokéTracker is a fan-made project and is not affiliated with, endorsed, sponsored, or approved by Nintendo, Game Freak, or The Pokémon Company.</p>
+        <p>All card data are fetched via <a href="https://pokemontcg.io/" class="text-blue-400 hover:text-white">Pokémon TCG API</a>.</p>
+      </aside>
+    </footer>
   </body>
+
 </html>
