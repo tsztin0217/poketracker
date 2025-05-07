@@ -58,6 +58,12 @@ class BinderDelete(LoginRequiredMixin, DeleteView):
     model = Binder
     success_url = '/binders/'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        binder = self.get_object()
+        context['cards'] = binder.cards.all() 
+        return context
+
 
 @login_required
 def binder_detail(request, pk):
@@ -164,7 +170,6 @@ def user_card_detail(request, pk):
 
 class UserCardUpdate(LoginRequiredMixin, UpdateView):
     model = UserCardInfo
-    # fields = ['date_obtained','method_obtained', 'graded', 'grade', 'price_paid', 'comments']
     form_class = UserCardInfoForm
 
 
