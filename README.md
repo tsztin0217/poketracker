@@ -79,9 +79,3 @@ Currently, the app offers basic CRUD functionality:
 - **Show metrics on the user’s homepage:** I’m hoping to create a dashboard that provides users with key metrics, such as how many binders they own, how many cards they've collected from different sets, and other useful statistics.
 
 - **Create multiple binder cover images:** I’d like to add the ability for users to choose from a selection of binder cover images. This will allow users to personalize their collections and make them feel more unique. It's still in the planning phase, but I think it would be a fun way to customize the user experience.
-
-# References
-
-- [Django Forms](https://docs.djangoproject.com/en/5.2/topics/forms/)
-- [Django Paginator](https://docs.djangoproject.com/en/5.1/ref/paginator/)
-- https://docs.djangoproject.com/en/5.2/ref/
