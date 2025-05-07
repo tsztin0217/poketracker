@@ -49,6 +49,7 @@ Currently, the app offers basic CRUD functionality:
 
 - **Python 3.11**
 - **Django**
+- **PostgreSQL**
 - **Tailwind CSS** (via CDN)
 - **HTML**
 - **Pokémon TCG API** – for card data and images
@@ -69,7 +70,7 @@ Currently, the app offers basic CRUD functionality:
 ---
 
 ## 🌱 Next Steps
-- **Add sorting + filtering options**: Card number, most recently updated, set, ec.
+- **Add sorting + filtering options**: Card number, series, most recently updated, set, etc.
 
 - **Add grading company field:** I plan to include an option for users to specify the grading company (like PSA, SGC, etc.) when adding cards.
 
