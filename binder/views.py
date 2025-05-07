@@ -86,7 +86,6 @@ def binder_detail(request, pk):
 
 @login_required
 def search_cards(request, binder_id):
-    print("search_cards function is being called")
     
     query = request.GET.get('query', '') 
     page_number = request.GET.get('page')
