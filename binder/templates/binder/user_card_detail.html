@@ -1,20 +1,66 @@
-{% extends "base.html" %} {% block content %}
-<h1>{{ user_card }}</h1>
-<h1>{{card.name }}</h1>
-<p>{{card}}</p>
-<a href="{% url 'binder-detail' binder.id %}">Return to Binder</a>
-<p>
-  <img src="{{ card.images.large }}" alt="{{ card.name }}" class="object-cover h-150" />
-</p>
-<a href="{% url 'user-card-update' user_card.pk %}">Edit Card</a>
-<a href="{% url 'user-card-delete' user_card.pk %}">Delete Card</a>
-<p><strong>Date obtained: </strong>{{ user_card.date_obtained}}</p>
-<p>
-  <strong>Method obtained: </strong>{{ user_card.get_method_obtained_display }}
-</p>
-<p><strong>Price paid: </strong>${{ user_card.price_paid }}</p>
-<p><strong>Graded: </strong>{{ user_card.get_graded_display }}</p>
-<p><strong>Grade: </strong>{{ user_card.grade }}</p>
-<p><strong>Comments: </strong>{{ user_card.comments }}</p>
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-6">
 
+
+  <div class="text-center mb-8 space-y-4">
+    <img src="{{ card.set.images.logo }}" alt="{{ card.name }} logo" class="mx-auto max-h-20 object-contain" />
+    <h1 class="text-4xl font-bold">{{ card.name }}</h1>
+    <div class="flex flex-wrap justify-center gap-3">
+      <a href="{% url 'binder-detail' binder.id %}" class="btn btn-primary">Return to {{ binder }}</a>
+      <a href="{% url 'user-card-update' user_card.pk %}" class="btn btn-primary">Edit Card</a>
+      <a href="{% url 'user-card-delete' user_card.pk %}" class="btn btn-primary">Delete Card</a>
+    </div>
+  </div>
+
+
+  <div class="flex flex-col md:flex-row gap-10">
+
+
+    <div class="md:w-1/2 flex justify-center">
+      <img src="{{ card.images.large }}" alt="{{ card.name }}" class="rounded max-w-full max-h-[500px] object-contain" />
+    </div>
+
+
+    <div class="md:w-1/2 space-y-4 text-left">
+      <h2 class="text-2xl font-semibold flex items-center gap-2">
+        {{ card.name }}
+        <img src="{{ card.set.images.symbol }}" alt="{{ card.set.name }} symbol" class="w-6 h-6 object-contain" />
+      </h2>
+
+
+      {% if user_card.date_obtained %}
+        <p><strong>Date obtained:</strong> {{ user_card.date_obtained }}</p>
+      {% endif %}
+      {% if user_card.get_method_obtained_display %}
+        <p><strong>Method obtained:</strong> {{ user_card.get_method_obtained_display }}</p>
+      {% endif %}
+      {% if user_card.price_paid %}
+        <p><strong>Price paid:</strong> ${{ user_card.price_paid }}</p>
+      {% endif %}
+      {% if user_card.get_graded_display %}
+        <p><strong>Graded:</strong> {{ user_card.get_graded_display }}</p>
+      {% endif %}
+      {% if user_card.grade %}
+        <p><strong>Grade:</strong> {{ user_card.grade }}</p>
+      {% endif %}
+      {% if user_card.comments %}
+        <p><strong>Comments:</strong> {{ user_card.comments }}</p>
+      {% endif %}
+
+      <!-- General Card Info -->
+      <hr class="my-4" />
+      <p><strong>Set:</strong> {{ card.set.name }}</p>
+      <p><strong>Series:</strong> {{ card.set.series }}</p>
+      <p><strong>Rarity:</strong> {{ card.rarity }}</p>
+      <p><strong>Release Date:</strong> {{ card.set.releaseDate }}</p>
+      <p><strong>Updated At:</strong> {{ card.set.updatedAt }}</p>
+      <p>
+        <a class="link link-primary font-semibold" href="{{ card.tcgplayer.url }}" target="_blank">
+          View on TCG Player
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
 {% endblock %}
