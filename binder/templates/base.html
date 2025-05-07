@@ -10,33 +10,35 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300..700;1,300..700&family=Darumadrop+One&family=Original+Surfer&family=Rochester&family=Single+Day&display=swap" rel="stylesheet" />
     {% block head %}
       <title>PokeTracker</title>
     {% endblock %}
   </head>
   <body>
     <header class="bg-gray-800 text-white p-4">
-      <nav class="flex justify-between items-center">
-        <div class="flex items-center gap-4">
-          <a href="/"><img src="{% static 'images/PokeTracker.png' %}" alt="PokeTracker Logo" class="h-8" /></a>
+      <nav class="navbar bg-base-100 shadow-sm">
+        <div class="flex-1 flex items-center space-x-2">
+          <a href="/"><img src="{% static 'images/PokeTracker.png' %}" alt="PokeTracker Logo" class="rounded transform duration-300 hover:brightness-110"  /></a>
           {% if user.is_authenticated %}
-            <a href="{% url 'binder-index' %}" class="hover:underline">My Binders</a>
+            <a href="{% url 'binder-index' %}" class="btn btn-square btn-ghost">My Binders</a>
           {% endif %}
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex-none">
           {% if user.is_authenticated %}
             <form id="logout-form" method="post" action="{% url 'logout' %}">
               {% csrf_token %}
-              <button type="submit" class="hover:underline">Log out</button>
+              <button type="submit" class="btn btn-square btn-ghost">Log out</button>
             </form>
           {% else %}
-            <a href="{% url 'signup' %}" class="hover:underline">Sign Up</a>
-            <a href="{% url 'login' %}" class="hover:underline">Login</a>
+            <a href="{% url 'signup' %}" class="btn btn-square btn-ghost">Sign Up</a>
+            <a href="{% url 'login' %}" class="btn btn-square btn-ghost">Login</a>
           {% endif %}
         </div>
       </nav>
     </header>
-
     <main>
       {% block content %}
       {% endblock %}
