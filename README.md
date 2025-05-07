@@ -1,18 +1,6 @@
 # PokéTracker
 > A place to track and manage your Pokémon card collection.
 
-<img src="binder/static/images/homepage.png" alt="Homepage screenshot" width="600"/>
-
-<img src="binder/static/images/binder_index.png" alt="Binder index screenshot" width="600"/>
-
-<img src="binder/static/images/search.png" alt="Search result screenshot" width="600"/>
-
-<img src="binder/static/images/card_info.png" alt="Card detail screenshot" width="600"/>
-
-<img src="binder/static/images/user_card.png" alt="Card detail page featuring both card and user card info" width="600"/>
-
-<img src="binder/static/images/delete_binder.png" alt="Binder delete screenshot" width="600"/>
-
 ---
 # Background Info
 My partner has always been an avid Pokémon card collector, and over the years, he's accumulated binders and binders of cards. I vividly remember him expressing frustration about the difficulty of keeping track of all the cards he owns, as well as managing prices for the ones on his wishlist.
@@ -33,8 +21,23 @@ Currently, the app offers basic CRUD functionality:
 
 **Delete**: Remove cards and binders from your collection if you've traded them, sold them, or simply no longer want to track them.
 
----
 
+
+## Screenshots
+
+<img src="binder/static/images/homepage.png" alt="Homepage screenshot" width="600"/>
+
+<img src="binder/static/images/binder_index.png" alt="Binder index screenshot" width="600"/>
+
+<img src="binder/static/images/search.png" alt="Search result screenshot" width="600"/>
+
+<img src="binder/static/images/card_info.png" alt="Card detail screenshot" width="600"/>
+
+<img src="binder/static/images/user_card.png" alt="Card detail page featuring both card and user card info" width="600"/>
+
+<img src="binder/static/images/delete_binder.png" alt="Binder delete screenshot" width="600"/>
+
+---
 ## 🚀 Getting Started
 
 ### 🔗 Deployed App
