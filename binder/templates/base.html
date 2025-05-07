@@ -16,7 +16,7 @@
       <title>PokeTracker</title>
     {% endblock %}
   </head>
-  <body>
+  <body class="min-h-screen flex flex-col">
     <header class="bg-gray-800 text-white p-4">
       <nav class="navbar bg-base-100 shadow-sm">
         <div class="flex-1 flex items-center space-x-2">
@@ -38,7 +38,7 @@
         </div>
       </nav>
     </header>
-    <main>
+    <main class="flex-grow">
       {% block content %}
       {% endblock %}
     </main>
