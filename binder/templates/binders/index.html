@@ -3,14 +3,13 @@
 {% block content %}
 <div class="text-center mt-5 mb-5">
   <p class="text-4xl py-5">{{ request.user.username }}'s Binder Dashboard</p>
-  <a href="{% url 'binder-create' %}" class="btn btn-primary mb-6 font-surfer">+ Create Binder</a>
-  
+  <a href="{% url 'binder-create' %}" class="btn btn-primary mt-6 mb-6">+ Create Binder</a>
 </div>
 
 
   {% if object_list %}
-    <div class="flex flex-wrap gap-5 justify-center px-6 mb-10">
-      <div class="flex flex-start flex-wrap gap-4">
+    <div class="flex flex-wrap gap-5 justify-center items-center px-6 py-6 m-auto">
+      <div class="flex flex-start flex-row flex-wrap gap-4">
         {% for binder in object_list %}
         <a href="{% url 'binder-detail' binder.id %}" class="card shadow-lg hover:shadow-blue-500/50 hover:shadow-xl hover:brightness-110 transition duration-300 image-full w-64">
             <figure>
