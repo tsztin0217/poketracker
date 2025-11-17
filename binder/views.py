@@ -70,6 +70,7 @@ class BinderDelete(LoginRequiredMixin, DeleteView):
 
 @login_required
 def binder_detail(request, pk):
+    """Load all cards in a binder with graceful error handling for API failures."""
     binder = get_object_or_404(Binder, pk=pk, owner=request.user)
     cards_in_binder = UserCardInfo.objects.filter(owner=request.user, binder=binder)
 
