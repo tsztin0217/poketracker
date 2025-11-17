@@ -15,7 +15,7 @@ def _build_headers():
     return headers
 
 
-def fetch_card_data(query, timeout=10):
+def fetch_card_data(query, timeout=30):
     """Fetch cards that match `query` from the Pokemon TCG API.
     
     Returns the parsed JSON on success, or None on failure.
@@ -39,7 +39,7 @@ def fetch_card_data(query, timeout=10):
     return None
 
 
-def get_card_details_from_api(card_id, timeout=10):
+def get_card_details_from_api(card_id, timeout=30):
     try:
         url = f"https://api.pokemontcg.io/v2/cards/{quote_plus(card_id)}"
         headers = _build_headers()
