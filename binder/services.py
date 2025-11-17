@@ -64,6 +64,23 @@ def fetch_card_data(query, timeout=30):
 
 
 def get_card_details_from_api(card_id, timeout=30):
+    """Fetch details for a single card by ID from the Pokemon TCG API.
+    
+    Returns the card data dict on success, or None on failure.
+    Caches results for 1 hour to avoid repeated slow API calls for the same card.
+    """
+    # Check cache first
+    cache_key = f"card_{card_id}"
+    if cache_key in _cache:
+        expiry = _cache_expiry.get(cache_key, 0)
+        if time.time() < expiry:
+            logger.info('Returning cached result for card_id=%s', card_id)
+            return _cache[cache_key]
+        else:
+            # Cache expired, remove it
+            del _cache[cache_key]
+            del _cache_expiry[cache_key]
+    
     try:
         url = f"https://api.pokemontcg.io/v2/cards/{quote_plus(card_id)}"
         headers = _build_headers()
@@ -71,7 +88,12 @@ def get_card_details_from_api(card_id, timeout=30):
         if resp.status_code == 200:
             data = resp.json()
             if 'data' in data:
-                return data['data']
+                card_data = data['data']
+                # Cache the result for 1 hour
+                _cache[cache_key] = card_data
+                _cache_expiry[cache_key] = time.time() + 3600
+                logger.info('Cached card data for card_id=%s', card_id)
+                return card_data
         else:
             logger.warning('Pokemon TCG API returned status %d for card_id=%s', resp.status_code, card_id)
     except Timeout:

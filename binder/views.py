@@ -134,15 +134,34 @@ def search_cards(request, binder_id):
 def card_detail_view(request, binder_id, card_id):
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
     card = get_card_details_from_api(card_id)
+    
+    if not card:
+        logger.warning('Failed to fetch card details for card_id=%s', card_id)
+        return render(request, 'binder/card_detail.html', {
+            'binder': binder,
+            'card': None,
+            'api_error': True
+        })
+    
     return render(request, 'binder/card_detail.html', {
         'binder': binder,
-        'card': card
+        'card': card,
+        'api_error': False
     })
 
 @login_required
 def add_card_to_binder(request, binder_id, card_id):
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
     card = get_card_details_from_api(card_id)
+    
+    if not card:
+        logger.warning('Failed to fetch card details for card_id=%s', card_id)
+        return render(request, 'binder/add_card.html', {
+            'form': None,
+            'binder': binder,
+            'card': None,
+            'api_error': True
+        })
 
     if request.method == 'POST':
         form = UserCardInfoForm(request.POST)
@@ -162,18 +181,24 @@ def add_card_to_binder(request, binder_id, card_id):
     return render(request, 'binder/add_card.html', {
         'form': form,
         'binder': binder,
-        'card': card
+        'card': card,
+        'api_error': False
     })
 
 @login_required
 def user_card_detail(request, pk):
     user_card = get_object_or_404(UserCardInfo, pk=pk, owner=request.user)
     card = get_card_details_from_api(user_card.card_id)
-    binder = user_card.binder 
+    binder = user_card.binder
+    
+    if not card:
+        logger.warning('Failed to fetch card details for card_id=%s', user_card.card_id)
+    
     return render(request, 'binder/user_card_detail.html', {
         'user_card': user_card,
         'binder': binder,
-        'card': card
+        'card': card,
+        'api_error': card is None
     })
 
 class UserCardUpdate(LoginRequiredMixin, UpdateView):
