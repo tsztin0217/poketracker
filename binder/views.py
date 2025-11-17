@@ -70,33 +70,17 @@ class BinderDelete(LoginRequiredMixin, DeleteView):
 
 @login_required
 def binder_detail(request, pk):
-    """Load all cards in a binder with graceful error handling for API failures."""
+    """Load all cards in a binder without fetching API details on page load.
+    
+    This avoids timeout issues when loading binders with many cards.
+    Users can click individual cards to fetch details on-demand.
+    """
     binder = get_object_or_404(Binder, pk=pk, owner=request.user)
     cards_in_binder = UserCardInfo.objects.filter(owner=request.user, binder=binder)
 
-    cards_with_details = []
-    api_error = False
-    for user_card in cards_in_binder:
-        card_data = get_card_details_from_api(user_card.card_id)
-        if card_data:
-            cards_with_details.append({
-                'user_card': user_card,
-                'card': card_data 
-            })
-        else:
-            # Log but don't crash if API fails for this card
-            logger.warning('Failed to fetch card details for card_id=%s in binder_detail', user_card.card_id)
-            api_error = True
-            # Still add to list with card_data=None so template can show placeholder
-            cards_with_details.append({
-                'user_card': user_card,
-                'card': None
-            })
-
     return render(request, 'binder/binder_detail.html', {
         'binder': binder,
-        'cards_with_details': cards_with_details,
-        'api_error': api_error,
+        'cards_in_binder': cards_in_binder,
     })
 
 @login_required

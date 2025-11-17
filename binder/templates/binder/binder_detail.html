@@ -5,37 +5,23 @@
   <a href="{% url 'search-cards' binder.id %}" class="btn btn-primary px-5">+ Add a Card</a>
   <a href="{% url 'binder-update' binder.id %}" class="btn btn-primary">Edit Binder</a>
   <a href="{% url 'binder-delete' binder.id %}" class="btn btn-primary">Delete Binder</a>
-  {% if api_error %}
-    <p class="text-yellow-600 mt-4">⚠️ Some card details couldn't load. Cards are listed below, but full details may be missing.</p>
-  {% endif %}
 </div>
 
-
-  <div class="flex flex-wrap justify-start items-center gap-5 max-w-screen-xl mx-auto px-4">
-    {% for card in cards_with_details %}
+<div class="flex flex-wrap justify-start items-center gap-5 max-w-screen-xl mx-auto px-4">
+  {% for card in cards_in_binder %}
     <span class="max-w-[220px]">
-      {% if card.card %}
-        <a href="{% url 'user-card-detail' card.user_card.pk %}">
-          <img
-            src="{{ card.user_card.img_url_small }}"
-            alt="{{ card.user_card.name }}"
-            class="rounded transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110"
-          />
-        </a>
-      {% else %}
-        <div class="w-full h-48 bg-gray-300 rounded flex items-center justify-center text-center p-2">
-          <div>
-            <p class="text-sm font-semibold text-gray-700">{{ card.user_card.name }}</p>
-            <p class="text-xs text-gray-600">Card details unavailable</p>
-            <a href="{% url 'user-card-detail' card.user_card.pk %}" class="text-xs text-blue-600 hover:underline mt-1 block">View details</a>
-          </div>
-        </div>
-      {% endif %}
+      <a href="{% url 'user-card-detail' card.pk %}">
+        <img
+          src="{{ card.img_url_small }}"
+          alt="{{ card.name }}"
+          class="rounded transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-400 hover:brightness-110"
+        />
+      </a>
     </span>
-    {% endfor %}
-  </div>
-
-
+  {% empty %}
+    <p class="text-center text-gray-600 w-full py-8">No cards in this binder yet. <a href="{% url 'search-cards' binder.id %}" class="text-blue-600 hover:underline">Add cards</a> to get started.</p>
+  {% endfor %}
+</div>
 
 <div class="text-center py-5">
   <p><strong>Date Created: </strong>{{ binder.created_at }}</p>
