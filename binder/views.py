@@ -74,6 +74,7 @@ def binder_detail(request, pk):
     cards_in_binder = UserCardInfo.objects.filter(owner=request.user, binder=binder)
 
     cards_with_details = []
+    api_error = False
     for user_card in cards_in_binder:
         card_data = get_card_details_from_api(user_card.card_id)
         if card_data:
@@ -81,10 +82,20 @@ def binder_detail(request, pk):
                 'user_card': user_card,
                 'card': card_data 
             })
+        else:
+            # Log but don't crash if API fails for this card
+            logger.warning('Failed to fetch card details for card_id=%s in binder_detail', user_card.card_id)
+            api_error = True
+            # Still add to list with card_data=None so template can show placeholder
+            cards_with_details.append({
+                'user_card': user_card,
+                'card': None
+            })
 
     return render(request, 'binder/binder_detail.html', {
         'binder': binder,
         'cards_with_details': cards_with_details,
+        'api_error': api_error,
     })
 
 @login_required
