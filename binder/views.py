@@ -129,7 +129,8 @@ def search_cards(request, binder_id):
 @login_required
 def card_detail_view(request, binder_id, card_id):
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
-    card = get_card_details_from_api(card_id)
+    # Use short timeout (5 sec) so errors are caught before Heroku's 30s limit
+    card = get_card_details_from_api(card_id, timeout=5)
     
     if not card:
         logger.warning('Failed to fetch card details for card_id=%s', card_id)
@@ -148,7 +149,8 @@ def card_detail_view(request, binder_id, card_id):
 @login_required
 def add_card_to_binder(request, binder_id, card_id):
     binder = get_object_or_404(Binder, id=binder_id, owner=request.user)
-    card = get_card_details_from_api(card_id)
+    # Use short timeout (5 sec) so errors are caught before Heroku's 30s limit
+    card = get_card_details_from_api(card_id, timeout=5)
     
     if not card:
         logger.warning('Failed to fetch card details for card_id=%s', card_id)
@@ -184,7 +186,8 @@ def add_card_to_binder(request, binder_id, card_id):
 @login_required
 def user_card_detail(request, pk):
     user_card = get_object_or_404(UserCardInfo, pk=pk, owner=request.user)
-    card = get_card_details_from_api(user_card.card_id)
+    # Use short timeout (5 sec) so errors are caught before Heroku's 30s limit
+    card = get_card_details_from_api(user_card.card_id, timeout=5)
     binder = user_card.binder
     
     if not card:
