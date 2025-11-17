@@ -74,7 +74,11 @@
 	  
 	  
     {% else %}
-      <p class="text-center">No cards found for "{{ query }}"</p>
+      {% if api_error %}
+        <p class="text-center text-red-600">Search temporarily unavailable. The card service is currently unreachable — please try again in a few moments.</p>
+      {% else %}
+        <p class="text-center">No cards found for "{{ query }}"</p>
+      {% endif %}
     {% endif %}
   {% endif %}
 {% endblock %}

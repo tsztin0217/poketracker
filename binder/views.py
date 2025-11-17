@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -11,6 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .services import fetch_card_data, get_card_details_from_api
 from django.urls import reverse
 from django.core.paginator import Paginator
+
+logger = logging.getLogger(__name__)
 
 def signup(request):
     error_message = ''
@@ -90,10 +93,15 @@ def search_cards(request, binder_id):
     query = request.GET.get('query', '') 
     page_number = request.GET.get('page')
     cards = []  
+    api_error = False
     
     if query:
         query = query.strip()  
         data = fetch_card_data(query)
+        if not data:
+            # fetch_card_data logs the exception; surface the error for the template
+            api_error = True
+            logger.warning('fetch_card_data returned no data for query=%s', query)
         
         if data and 'data' in data:
             for card in data['data']:
@@ -118,7 +126,8 @@ def search_cards(request, binder_id):
         'cards': page_obj.object_list,
         'query': query,
         'binder': binder,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'api_error': api_error,
     }) 
 
 @login_required
